@@ -1,18 +1,23 @@
 <template>
   <div class="Location">
     <h2>{{ locationInfo["name"] || "Unknown Location" }}</h2>
-    <p>{{ address || "No Address Information" }}</p>
-    <pre v-for="([days, schedule], key) in schedules" :key="key">{{ days }} {{ schedule }}</pre>
+    <strong>{{ address || "No Address Information" }}</strong>
+    <p v-if="!schedules.length">No Schedule Information</p>
+    <Schedule v-else v-for="([days, sessions], key) in schedules" :key="key" :days="days" :sessions="sessions"/>
+<!--    <pre v-for="([days, schedule], key) in schedules" :key="key">{{ days }} {{ schedule }}</pre>-->
   </div>
 </template>
 
 <script>
-// const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+import Schedule from "./Schedule.vue";
 
 export default {
   name: "Location",
   props: {
     locationInfo: Object
+  },
+  components: {
+    Schedule
   },
   computed: {
     address() {
@@ -33,6 +38,9 @@ export default {
             }
 
             prev[dayKey].push({ start: curr["start_hour"], end: curr["end_hour"] });
+            prev[dayKey].sort(({ start: start1 }, { start: start2 }) => {
+              return start1 - start2;
+            });
             return prev;
           }, {})
       ).sort((a, b) => {
