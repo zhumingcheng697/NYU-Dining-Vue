@@ -1,7 +1,8 @@
 <template>
   <div class="Location">
-    <h2>{{ location["name"] || `Unknown Location` }}</h2>
-    <pre>{{ location }}</pre>
+    <h2>{{ locationInfo["name"] || "Unknown Location" }}</h2>
+    <p>{{ address || "No Address Information" }}</p>
+    <pre>{{ locationInfo }}</pre>
   </div>
 </template>
 
@@ -9,7 +10,13 @@
 export default {
   name: "Location",
   props: {
-    location: Object
+    locationInfo: Object
+  },
+  computed: {
+    address() {
+      const { street, city, state, zip_code } = (this.locationInfo["address"] || {});
+      return [street, city, state].filter(Boolean).join(", ") + (zip_code ? ` ${zip_code}` : "");
+    }
   }
 };
 </script>

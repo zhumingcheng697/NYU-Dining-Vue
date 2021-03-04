@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <h1>NYU Dining Vue</h1>
-    <Location v-for="location in locations" :key="location['id']" :location="location"/>
+    <Location v-for="location in locations" :key="location['id']" :locationInfo="location"/>
   </div>
 </template>
 
@@ -25,8 +25,8 @@ export default {
     // nodeFetch(locationsJsonUrl).then((res) => res.text()).then((text) => {
     //   try {
     //     const locations = JSON.parse(`${text}`);
-    //     locations.forEach((location) => {
-    //       delete location["schedules"];
+    //     locations.forEach((locationInfo) => {
+    //       delete locationInfo["schedules"];
     //     });
     //     this.locations = locations;
     //     console.log(JSON.stringify(locations));
