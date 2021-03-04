@@ -2,7 +2,7 @@
   <div class="Location">
     <h2>{{ locationInfo["name"] || "Unknown Location" }}</h2>
     <p>{{ address || "No Address Information" }}</p>
-    <pre>{{ locationInfo }}</pre>
+    <pre v-for="(schedule, key) in schedules" :key="key">{{schedule}}</pre>
   </div>
 </template>
 
@@ -16,6 +16,9 @@ export default {
     address() {
       const { street, city, state, zip_code } = (this.locationInfo["address"] || {});
       return [street, city, state].filter(Boolean).join(", ") + (zip_code ? ` ${zip_code}` : "");
+    },
+    schedules() {
+      return (this.locationInfo["schedules"] || []).filter((el) => el["type"] === "location");
     }
   }
 };
