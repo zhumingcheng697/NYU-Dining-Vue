@@ -1,5 +1,7 @@
 <template>
-  <p>{{ daysStr }}: {{ sessionsStr }}</p>
+  <div class="Schedule">
+    <p>{{ daysStr }}: {{ sessionsStr }}</p>
+  </div>
 </template>
 
 <script>
@@ -13,7 +15,7 @@ export default {
   },
   computed: {
     daysStr() {
-      const daysArr = this.days.split(",").map((n) => daysOfWeek[n % 7]);
+      const daysArr = this.days.split(",").map((n) => daysOfWeek[n]);
       return daysArr.length === 1 ? daysArr[0] : `${daysArr[0]} - ${daysArr[daysArr.length - 1]}`;
     },
     sessionsStr() {

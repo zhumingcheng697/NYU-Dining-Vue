@@ -26,7 +26,7 @@ export default {
     schedules() {
       return Object.entries(
           (this.locationInfo["schedules"] || []).filter((el) => {
-            return el["type"] === "location" && el["days"] && Array.isArray(el["days"]) && el["start_hour"] && el["end_hour"];
+            return el["type"] === "location" && el["days"] && Array.isArray(el["days"]) && el["days"].length && el["start_hour"] && el["end_hour"];
           }).reduce((prev, curr) => {
             const dayKey = curr["days"].sort((a, b) => {
               return ((a === 0 ? 7 : a) - (b === 0 ? 7 : b));
@@ -37,9 +37,6 @@ export default {
             }
 
             prev[dayKey].push({ start: curr["start_hour"], end: curr["end_hour"] });
-            prev[dayKey].sort(({ start: start1 }, { start: start2 }) => {
-              return start1 - start2;
-            });
             return prev;
           }, {})
       ).sort((a, b) => {
@@ -50,13 +47,16 @@ export default {
         } else {
           return 0;
         }
+      }).map(([days, sessions]) => {
+        return [days, sessions.sort(({ start: start1 }, { start: start2 }) => {
+          return start1 - start2;
+        })];
       });
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h2 {
   margin: 12px 0;
