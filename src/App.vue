@@ -6,14 +6,38 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import HelloWorld from "./components/HelloWorld.vue";
+import * as nodeFetch from "node-fetch";
+
+const locationsJsonUrl = "https://s3.amazonaws.com/mobile.nyu.edu/dining/locations.json";
 
 export default {
-  name: 'App',
+  name: "App",
+  data() {
+    return {
+      locations: []
+    };
+  },
   components: {
     HelloWorld
+  },
+  created() {
+    nodeFetch(locationsJsonUrl).then((res) => res.text()).then((text) => {
+      try {
+        const locations = JSON.parse(`${text}`);
+        locations.forEach((location) => {
+          delete location["schedules"];
+        });
+        this.locations = locations;
+      } catch(e) {
+        console.error(e);
+        this.locations = null;
+      } finally {
+        console.log(this.locations);
+      }
+    });
   }
-}
+};
 </script>
 
 <style>
