@@ -48,7 +48,7 @@ export default {
 
 <style>
 body {
-  background: #fff;
+  background: #f1f1f1;
   margin: 0 auto;
   padding: 15px 20px;
   max-width: 1080px;

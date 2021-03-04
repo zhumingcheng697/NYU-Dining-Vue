@@ -78,8 +78,9 @@ p {
 }
 
 .Location {
-  background: #f4f4f4;
+  background: #fafafa;
   border-radius: 10px;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -88,7 +89,11 @@ p {
   width: 100%;
 }
 
-@media (min-width: 900px) {
+.Location:hover {
+  background: #fff;
+}
+
+@media (min-width: 780px) {
   .Location {
     width: calc((100% - 100px) / 2);
   }
