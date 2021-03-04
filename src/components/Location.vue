@@ -4,7 +4,6 @@
     <strong>{{ address || "No Address Information" }}</strong>
     <p v-if="!schedules.length">No Schedule Information</p>
     <Schedule v-else v-for="([days, sessions], key) in schedules" :key="key" :days="days" :sessions="sessions"/>
-<!--    <pre v-for="([days, schedule], key) in schedules" :key="key">{{ days }} {{ schedule }}</pre>-->
   </div>
 </template>
 
@@ -60,12 +59,18 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h2 {
-  margin: 10px 0;
+  margin: 12px 0;
   padding: 0;
 }
 
-p, strong {
+strong {
+  display: block;
   margin: 12px 0;
+  padding: 0;
+}
+
+p {
+  margin: 10px 0;
   padding: 0;
 }
 
