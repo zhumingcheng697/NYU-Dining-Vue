@@ -1,5 +1,5 @@
 <template>
-  <div class="Location">
+  <div @click="$emit('click')" class="Location">
     <div class="LocationInfo">
       <h2>{{ locationInfo["name"] || "Unknown Location" }}</h2>
       <strong>{{ address || "No Address Information" }}</strong>
@@ -79,7 +79,7 @@ p {
 
 .Location {
   background: #fafafa;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
   display: flex;
   flex-direction: column;

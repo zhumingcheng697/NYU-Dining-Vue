@@ -5,7 +5,7 @@
     <h2 v-else-if="!loaded">Loading Locations…</h2>
     <h2 v-else-if="!locations.length">No Location Available</h2>
     <div class="Locations" v-else>
-      <Location v-for="location in locations" :key="location['id']" :locationInfo="location"/>
+      <Location v-for="(location, index) in locations" :key="location['id']" :locationInfo="location" @click.native="toggleLocation(index)"/>
     </div>
   </div>
 </template>
@@ -21,11 +21,18 @@ export default {
   data() {
     return {
       loaded: false,
-      locations: []
+      locations: [],
+      showingIndex: -1
     };
   },
   components: {
     Location
+  },
+  methods: {
+    toggleLocation(index) {
+      this.showingIndex = (this.showingIndex === index) ? -1 : index;
+      console.log(this.showingIndex, this.locations[this.showingIndex]);
+    }
   },
   created() {
     // nodeFetch(locationsJsonUrl).then((res) => res.text()).then((text) => {
