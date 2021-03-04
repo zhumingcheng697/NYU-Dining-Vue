@@ -75,6 +75,6 @@ p {
 }
 
 .Location {
-  margin: 25px 5px;
+  margin: 25px 0;
 }
 </style>
