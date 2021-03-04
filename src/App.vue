@@ -3,7 +3,9 @@
     <h1>NYU Dining Vue</h1>
     <h2 v-if="!locations">Failed to Load Locations</h2>
     <h2 v-else-if="loaded && !locations.length">No Location Available</h2>
-    <Location v-else v-for="location in locations" :key="location['id']" :locationInfo="location"/>
+    <div class="Locations" v-else>
+      <Location v-for="location in locations" :key="location['id']" :locationInfo="location"/>
+    </div>
   </div>
 </template>
 
@@ -42,14 +44,23 @@ export default {
 
 <style>
 body {
-  margin: 0;
-  padding: 0;
+  background: #fff;
+  margin: 0 auto;
+  padding: 15px 20px;
+  max-width: 1080px;
 }
 
 #app {
   font-family: Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding: 15px 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.Locations {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -10px;
 }
 </style>

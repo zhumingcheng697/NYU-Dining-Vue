@@ -1,9 +1,11 @@
 <template>
   <div class="Location">
-    <h2>{{ locationInfo["name"] || "Unknown Location" }}</h2>
-    <strong>{{ address || "No Address Information" }}</strong>
-    <p v-if="!schedules.length">No Schedule Information</p>
-    <Schedule v-else v-for="([days, sessions], key) in schedules" :key="key" :days="days" :sessions="sessions"/>
+    <div class="LocationInfo">
+      <h2>{{ locationInfo["name"] || "Unknown Location" }}</h2>
+      <strong>{{ address || "No Address Information" }}</strong>
+      <p v-if="!schedules.length">No Schedule Information</p>
+      <Schedule v-else v-for="([days, sessions], key) in schedules" :key="key" :days="days" :sessions="sessions"/>
+    </div>
   </div>
 </template>
 
@@ -59,6 +61,7 @@ export default {
 
 <style scoped>
 h2 {
+  color: #57068c;
   margin: 12px 0;
   padding: 0;
 }
@@ -75,6 +78,20 @@ p {
 }
 
 .Location {
-  margin: 25px 0;
+  background: #f4f4f4;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 5px 5px;
+  padding: 10px 20px;
+  width: 100%;
 }
+
+@media (min-width: 900px) {
+  .Location {
+    width: calc((100% - 100px) / 2);
+  }
+}
+
 </style>
