@@ -59,7 +59,17 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+h2 {
+  margin: 10px 0;
+  padding: 0;
+}
+
+p, strong {
+  margin: 12px 0;
+  padding: 0;
+}
+
 .Location {
-  margin: 10px 5px;
+  margin: 25px 5px;
 }
 </style>
