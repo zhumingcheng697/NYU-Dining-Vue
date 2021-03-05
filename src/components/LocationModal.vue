@@ -65,12 +65,12 @@ export default {
   position: relative;
   margin: 30px auto;
   width: calc(100% - 60px - var(--inset-horizontal));
-  padding: 10px 15px;
+  padding: 15px;
   max-width: 700px;
 }
 
 span {
-  color: #666;
+  color: #888;
   cursor: pointer;
   margin: 5px 10px;
   position: absolute;
@@ -79,11 +79,7 @@ span {
   right: 5px;
 }
 
-span:hover {
-  color: #333;
-}
-
-.Centered:hover .ModalContent:not(:hover) span {
+.Centered:hover .ModalContent:not(:hover) span, span:hover {
   color: #333;
 }
 </style>
