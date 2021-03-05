@@ -4,17 +4,23 @@
     <h2 v-if="!locations">Failed to Load Locations</h2>
     <h2 v-else-if="!loaded">Loading Locations…</h2>
     <h2 v-else-if="!locations.length">No Location Available</h2>
-    <div class="Locations" v-else>
-      <Location v-for="(location, index) in locations" :key="location['id']" :locationInfo="location" @click.native="toggleLocation(index)"/>
+    <div v-else>
+      <LocationInfo v-if="locations[showingIndex]" :locationInfo="locations[showingIndex]"/>
+      <div class="Locations">
+        <div class="LocationBlock" v-for="(location, index) in locations" :key="location['id']" @click="toggleLocation(index)">
+          <LocationInfo :locationInfo="location"/>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import Location from "./components/Location.vue";
+import LocationInfo from "./components/LocationInfo.vue";
 // import * as nodeFetch from "node-fetch";
 
 // const locationsJsonUrl = "https://s3.amazonaws.com/mobile.nyu.edu/dining/locations.json";
+// const menuJsonUrl = (locationId) => `https://s3.amazonaws.com/mobile.nyu.edu/dining/menus/${locationId}.json`;
 
 export default {
   name: "App",
@@ -22,11 +28,12 @@ export default {
     return {
       loaded: false,
       locations: [],
+      menus: {},
       showingIndex: -1
     };
   },
   components: {
-    Location
+    LocationInfo
   },
   methods: {
     toggleLocation(index) {
@@ -44,7 +51,7 @@ export default {
     //   } finally {
     setInterval(() => {
       this.loaded = true;
-    },1000);
+    }, 1000);
     // this.loaded = true;
     //   }
     // });
@@ -55,7 +62,7 @@ export default {
 
 <style>
 body {
-  background: #f1f1f1;
+  background: #eee;
   margin: 0 auto;
   padding: 15px 20px;
   max-width: 1080px;
@@ -77,5 +84,27 @@ h2 {
   display: flex;
   flex-wrap: wrap;
   margin: 0 -10px;
+}
+
+.LocationBlock {
+  background: #fafafa;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 5px 5px;
+  padding: 10px 20px;
+  width: 100%;
+}
+
+.LocationBlock:hover {
+  background: #fff;
+}
+
+@media (min-width: 780px) {
+  .LocationBlock {
+    width: calc((100% - 100px) / 2);
+  }
 }
 </style>

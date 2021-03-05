@@ -1,11 +1,9 @@
 <template>
-  <div @click="$emit('click')" class="Location">
-    <div class="LocationInfo">
-      <h2>{{ locationInfo["name"] || "Unknown Location" }}</h2>
-      <strong>{{ address || "No Address Information" }}</strong>
-      <p v-if="!schedules.length">No Schedule Information</p>
-      <Schedule v-else v-for="([days, sessions], key) in schedules" :key="key" :days="days" :sessions="sessions"/>
-    </div>
+  <div class="LocationInfo">
+    <h2>{{ locationInfo["name"] || "Unknown Location" }}</h2>
+    <strong>{{ address || "No Address Information" }}</strong>
+    <p v-if="!schedules.length">No Schedule Information</p>
+    <Schedule v-else v-for="([days, sessions], key) in schedules" :key="key" :days="days" :sessions="sessions"/>
   </div>
 </template>
 
@@ -13,7 +11,7 @@
 import Schedule from "./Schedule.vue";
 
 export default {
-  name: "Location",
+  name: "LocationInfo",
   props: {
     locationInfo: Object
   },
@@ -30,7 +28,7 @@ export default {
           (this.locationInfo["schedules"] || []).filter((el) => {
             return el["type"] === "location" && el["days"] && Array.isArray(el["days"]) && el["days"].length && el["start_hour"] && el["end_hour"];
           }).reduce((prev, curr) => {
-            const dayKey = curr["days"].sort((a, b) => {
+            const dayKey = curr["days"].slice().sort((a, b) => {
               return ((a === 0 ? 7 : a) - (b === 0 ? 7 : b));
             }).join(",");
 
@@ -75,28 +73,6 @@ strong {
 p {
   margin: 10px 0;
   padding: 0;
-}
-
-.Location {
-  background: #fafafa;
-  border-radius: 12px;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 5px 5px;
-  padding: 10px 20px;
-  width: 100%;
-}
-
-.Location:hover {
-  background: #fff;
-}
-
-@media (min-width: 780px) {
-  .Location {
-    width: calc((100% - 100px) / 2);
-  }
 }
 
 </style>
