@@ -5,10 +5,10 @@
     <h2 v-else-if="!loaded">Loading Locations…</h2>
     <h2 v-else-if="!locations.length">No Location Available</h2>
     <div v-else>
-      <LocationInfo v-if="locations[showingIndex]" :locationInfo="locations[showingIndex]"/>
+      <LocationModal v-if="locations[showingIndex]" :location-info="locations[showingIndex]" @hide-location-modal="hideModal"/>
       <div class="Locations">
-        <div class="LocationBlock" v-for="(location, index) in locations" :key="location['id']" @click="toggleLocation(index)">
-          <LocationInfo :locationInfo="location"/>
+        <div class="LocationBlock" tabindex="0" v-for="(location, index) in locations" :key="location['id']" @keypress.esc="hideModal" @keypress.enter.space.prevent="toggleLocation(index)" @click="toggleLocation(index)">
+          <LocationInfo :location-info="location"/>
         </div>
       </div>
     </div>
@@ -17,6 +17,7 @@
 
 <script>
 import LocationInfo from "./components/LocationInfo.vue";
+import LocationModal from "./components/LocationModal";
 // import * as nodeFetch from "node-fetch";
 
 // const locationsJsonUrl = "https://s3.amazonaws.com/mobile.nyu.edu/dining/locations.json";
@@ -33,12 +34,15 @@ export default {
     };
   },
   components: {
-    LocationInfo
+    LocationInfo,
+    LocationModal
   },
   methods: {
     toggleLocation(index) {
       this.showingIndex = (this.showingIndex === index) ? -1 : index;
-      console.log(this.showingIndex, this.locations[this.showingIndex]);
+    },
+    hideModal() {
+      this.showingIndex = -1;
     }
   },
   created() {
