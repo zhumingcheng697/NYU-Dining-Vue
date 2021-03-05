@@ -1,7 +1,5 @@
 <template>
-  <div class="Schedule">
-    <p>{{ daysStr }}: {{ sessionsStr }}</p>
-  </div>
+  <p>{{ daysStr }}: {{ sessionsStr }}</p>
 </template>
 
 <script>
@@ -39,5 +37,7 @@ export default {
 <style scoped>
 p {
   color: #333;
+  margin: 6px 0;
+  padding: 0;
 }
 </style>

@@ -61,10 +61,18 @@ export default {
 </script>
 
 <style>
+:root {
+  --inset-left: env(safe-area-inset-left, 0px);
+  --inset-right: env(safe-area-inset-inset-right, 0px);
+  --inset-top: env(safe-area-inset-top, 0px);
+  --inset-bottom: env(safe-area-inset-bottom, 0px);
+  --inset-horizontal: calc(var(--inset-left) + var(--inset-right));
+}
+
 body {
   background: #eee;
   margin: 0 auto;
-  padding: 15px 20px;
+  padding: calc(15px + var(--inset-top)) calc(20px + var(--inset-right)) calc(15px + var(--inset-bottom)) calc(20px + var(--inset-left));
   max-width: 1080px;
 }
 
@@ -83,7 +91,7 @@ h2 {
 .Locations {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 -10px;
+  margin: 0 -5px;
 }
 
 .LocationBlock {
@@ -104,7 +112,7 @@ h2 {
 
 @media (min-width: 780px) {
   .LocationBlock {
-    width: calc((100% - 100px) / 2);
+    width: calc((100% - 100px - var(--inset-horizontal)) / 2);
   }
 }
 </style>

@@ -71,8 +71,8 @@ strong {
 }
 
 p {
-  margin: 10px 0;
+  color: #333;
+  margin: 6px 0;
   padding: 0;
 }
-
 </style>
