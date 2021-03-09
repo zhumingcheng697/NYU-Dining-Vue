@@ -7,8 +7,10 @@
           <h3 v-if="menuInfo && !Array.isArray(menuInfo)">Failed to Load Menu</h3>
           <h3 v-else-if="!menuInfo">Loading Menu…</h3>
           <h3 v-else-if="!menuInfo.length">No Menu Available</h3>
-          <pre v-else>{{ menuInfo }}</pre>
-
+          <div v-else class="Menus">
+            <h3>Menu</h3>
+            <Menu v-for="(menuItem, n) in menuInfo" :key="n" :menu-item="menuItem"/>
+          </div>
           <button class="ModalHideBtn" @click="$emit('hide-location-modal')" @keypress.prevent="$emit('keypress', $event)" @keypress.esc.enter.space.prevent="$emit('hide-location-modal')">×</button>
         </div>
       </div>
@@ -18,15 +20,17 @@
 
 <script>
 import LocationInfo from "./LocationInfo";
+import Menu from "./Menu";
 
 export default {
   name: "LocationModal",
   props: {
     locationInfo: Object,
-    menuInfo: Array || Object,
+    menuInfo: Array || Object
   },
   components: {
-    LocationInfo
+    LocationInfo,
+    Menu
   },
   methods: {
     clicked(e) {
@@ -40,7 +44,12 @@ export default {
 
 <style scoped>
 h3 {
+  padding: 0;
   margin: 18px 0 5px 0;
+}
+
+.Menus > h3 {
+  margin: 18px 0 -8px 0;
 }
 
 .ModalLayer {
