@@ -2,9 +2,9 @@
   <div class="ModalLayer">
     <div class="Scrollable">
       <div class="Centered" @click="clicked">
-        <div class="ModalContent">
+        <div aria-modal="true" class="ModalContent">
           <LocationInfo :location-info="locationInfo"/>
-          <span class="ModalHideBtn" @click="$emit('hide-location-modal')" @keypress.esc.enter.space.prevent="$emit('hide-location-modal')">×</span>
+          <button class="ModalHideBtn" @click="$emit('hide-location-modal')" @keypress.prevent="$emit('keypress', $event)" @keypress.esc.enter.space.prevent="$emit('hide-location-modal')">×</button>
         </div>
       </div>
     </div>
@@ -61,25 +61,31 @@ export default {
 
 .ModalContent {
   background: #eee;
-  border-radius: 10px;
+  border-radius: 12px;
   position: relative;
   margin: 30px auto;
-  width: calc(100% - 60px - var(--inset-horizontal));
-  padding: 15px;
+  padding: 25px 20px 20px 20px;
+  width: calc(100% - 80px - var(--inset-horizontal));
   max-width: 700px;
 }
 
-span {
+button {
+  background: none;
+  border: none;
   color: #888;
   cursor: pointer;
-  margin: 5px 10px;
   position: absolute;
+  font-family: inherit;
   font-size: 1.5em;
-  top: 0;
-  right: 5px;
+  margin: 0;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  padding: 0 0 3px 0;
 }
 
-.Centered:hover .ModalContent:not(:hover) span, span:hover {
+.Centered:hover .ModalContent:not(:hover) button, button:hover, button:focus {
   color: #333;
 }
 </style>

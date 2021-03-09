@@ -5,9 +5,9 @@
     <h2 v-else-if="!loaded">Loading Locations…</h2>
     <h2 v-else-if="!locations.length">No Location Available</h2>
     <div v-else>
-      <LocationModal v-if="locations[showingIndex]" :location-info="locations[showingIndex]" @hide-location-modal="hideModal"/>
+      <LocationModal v-if="locations[showingIndex]" :location-info="locations[showingIndex]" @keypress="handleKeyPress" @hide-location-modal="hideModal"/>
       <div class="Locations">
-        <div class="LocationBlock" tabindex="0" v-for="(location, index) in locations" :key="location['id']" @keypress.esc="hideModal" @keypress.enter.space.prevent="toggleLocation(index)" @click="toggleLocation(index)">
+        <div class="LocationBlock" :tabindex="showingIndex === -1 ? 0 : -1" v-for="(location, index) in locations" :key="location['id']" @keypress.esc="hideModal" @keypress.enter.space.prevent="toggleLocation(index)" @click="toggleLocation(index)">
           <LocationInfo :location-info="location"/>
         </div>
       </div>
@@ -40,9 +40,42 @@ export default {
   methods: {
     toggleLocation(index) {
       this.showingIndex = (this.showingIndex === index) ? -1 : index;
+
+      if (this.showingIndex !== -1) {
+        setTimeout(() => {
+          document.querySelector(`.ModalHideBtn`).focus();
+        }, 10);
+      }
     },
     hideModal() {
+      if (this.showingIndex >= 0 && this.showingIndex < this.locations.length) {
+        const index = this.showingIndex + 1;
+        setTimeout(() => {
+          document.querySelector(`.Locations .LocationBlock:nth-child(${index})`).focus();
+        }, 10);
+      }
+
       this.showingIndex = -1;
+    },
+    handleKeyPress(e) {
+      switch (e.key) {
+        case "[":
+          this.goLeft();
+          break;
+        case "]":
+          this.goRight();
+          break;
+      }
+    },
+    goLeft() {
+      if (this.showingIndex >= 0 && this.showingIndex < this.locations.length) {
+        this.toggleLocation((this.showingIndex + 14) % this.locations.length);
+      }
+    },
+    goRight() {
+      if (this.showingIndex >= 0 && this.showingIndex < this.locations.length) {
+        this.toggleLocation((this.showingIndex + 1) % this.locations.length);
+      }
     }
   },
   created() {
@@ -99,7 +132,7 @@ h2 {
 }
 
 .LocationBlock {
-  background: #fafafa;
+  background: #f9f9f9;
   border-radius: 12px;
   cursor: pointer;
   display: flex;
@@ -110,7 +143,7 @@ h2 {
   width: 100%;
 }
 
-.LocationBlock:hover {
+.LocationBlock:hover, .LocationBlock:focus {
   background: #fff;
 }
 
