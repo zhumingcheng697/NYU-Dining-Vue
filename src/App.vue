@@ -5,7 +5,7 @@
     <h2 v-else-if="!locations">Loading Locations…</h2>
     <h2 v-else-if="!locations.length">No Location Available</h2>
     <div v-else>
-      <LocationModal v-if="locations[showingIndex]" :location-info="locations[showingIndex]" :menu-info="(menus[menuIndex(showingIndex)] || {})['menu']" @keypress="handleKeyPress" @hide-location-modal="hideModal"/>
+      <LocationModal v-if="locations[showingIndex]" :location-info="locations[showingIndex]" :menu-info="(menus[menuIndex(showingIndex)] || {})['menu']" @keypress="handleModalKeyPress" @hide-location-modal="hideModal" @go-left="goLeft" @go-right="goRight"/>
       <div class="Locations">
         <div class="LocationBlock" :tabindex="showingIndex === -1 ? 0 : -1" v-for="(location, index) in locations" :key="location['id'] || index" @keypress.esc="hideModal" @keypress.enter.space.prevent="toggleLocation(index)" @click="toggleLocation(index)">
           <LocationInfo :location-info="location"/>
@@ -62,7 +62,9 @@ export default {
       if (this.showingIndex !== -1) {
         this.loadMenu(this.showingIndex);
         setTimeout(() => {
-          document.querySelector(`.ModalHideBtn`).focus();
+          if (!document.activeElement.classList.contains("LeftRightBtn")) {
+            document.querySelector(`.ModalHideBtn`).focus();
+          }
         }, 10);
       }
     },
@@ -76,7 +78,7 @@ export default {
 
       this.showingIndex = -1;
     },
-    handleKeyPress(e) {
+    handleModalKeyPress(e) {
       switch (e.key) {
         case "[":
           this.goLeft();
@@ -169,6 +171,7 @@ body {
   margin: 0 auto;
   padding: calc(15px + var(--inset-top)) calc(20px + var(--inset-right)) calc(15px + var(--inset-bottom)) calc(20px + var(--inset-left));
   max-width: 1080px;
+  -webkit-text-size-adjust: none;
 }
 
 h2 {

@@ -11,7 +11,11 @@
             <h3>Menu</h3>
             <Menu v-for="(menuItem, n) in menuInfo" :key="n" :menu-item="menuItem"/>
           </div>
-          <button class="ModalHideBtn" @click="$emit('hide-location-modal')" @keypress.prevent="$emit('keypress', $event)" @keypress.esc.enter.space.prevent="$emit('hide-location-modal')">×</button>
+          <button class="ModalHideBtn" @click="$emit('hide-location-modal')" @keypress.prevent="$emit('keypress', $event)" @keypress.esc.enter.space.prevent="$emit('hide-location-modal')">&times;</button>
+        </div>
+        <div class="LeftRightBtnGroup">
+          <button class="LeftBtn LeftRightBtn" @click="$emit('go-left')" @keypress.esc.enter.space.prevent="$emit('go-left')">&lt;</button>
+          <button class="RightBtn LeftRightBtn" @click="$emit('go-right')" @keypress.enter.space.prevent="$emit('go-right')">&gt;</button>
         </div>
       </div>
     </div>
@@ -82,30 +86,62 @@ h3 {
   background: #eee;
   border-radius: 12px;
   position: relative;
-  margin: 30px auto;
+  margin: calc(30px + var(--inset-top)) auto calc(30px + var(--inset-bottom)) auto;
   padding: 25px 20px 20px 20px;
-  width: calc(100% - 80px - var(--inset-horizontal));
+  width: calc(100% - 120px - var(--inset-horizontal));
   max-width: 700px;
 }
 
 button {
   background: none;
   border: none;
-  color: #888;
   cursor: pointer;
-  position: absolute;
   font-family: inherit;
   font-size: 1.5em;
   margin: 0;
-  top: 8px;
-  right: 8px;
   width: 32px;
   height: 32px;
+  text-align: center;
+}
+
+.LeftRightBtnGroup {
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  top: calc(50vh - 16px);
+  width: calc(100% - 10px - var(--inset-horizontal));
+  max-width: 820px;
+  z-index: 15;
+}
+
+.LeftRightBtn {
+  color: #ccc;
+}
+
+.LeftBtn {
+  padding: 0 1px 4px 0;
+}
+
+.RightBtn {
+  padding: 0 0 4px 1px;
+}
+
+.ModalHideBtn {
+  background: none;
+  border: none;
+  color: #888;
+  position: absolute;
+  top: 8px;
+  right: 8px;
   padding: 0 0 4px 0;
   text-align: center;
 }
 
-.Centered:hover .ModalContent:not(:hover) button, button:hover, button:focus {
+.Centered:hover .ModalContent:not(:hover) button.ModalHideBtn, button.ModalHideBtn:hover, button.ModalHideBtn:focus {
   color: #333;
+}
+
+.LeftRightBtn:hover, .LeftRightBtn:focus {
+  color: #fff;
 }
 </style>
