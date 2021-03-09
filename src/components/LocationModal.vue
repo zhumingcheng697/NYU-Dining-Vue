@@ -39,6 +39,10 @@ export default {
 </script>
 
 <style scoped>
+h3 {
+  margin: 18px 0 5px 0;
+}
+
 .ModalLayer {
   background: #000a;
   position: fixed;
@@ -88,7 +92,8 @@ button {
   right: 8px;
   width: 32px;
   height: 32px;
-  padding: 0 0 3px 0;
+  padding: 0 0 4px 0;
+  text-align: center;
 }
 
 .Centered:hover .ModalContent:not(:hover) button, button:hover, button:focus {
