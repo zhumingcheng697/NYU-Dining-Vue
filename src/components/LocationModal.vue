@@ -4,6 +4,11 @@
       <div class="Centered" @click="clicked">
         <div aria-modal="true" class="ModalContent">
           <LocationInfo :location-info="locationInfo"/>
+          <h3 v-if="menuInfo && !Array.isArray(menuInfo)">Failed to Load Menu</h3>
+          <h3 v-else-if="!menuInfo">Loading Menu…</h3>
+          <h3 v-else-if="!menuInfo.length">No Menu Available</h3>
+          <pre v-else>{{ menuInfo }}</pre>
+
           <button class="ModalHideBtn" @click="$emit('hide-location-modal')" @keypress.prevent="$emit('keypress', $event)" @keypress.esc.enter.space.prevent="$emit('hide-location-modal')">×</button>
         </div>
       </div>
@@ -17,7 +22,8 @@ import LocationInfo from "./LocationInfo";
 export default {
   name: "LocationModal",
   props: {
-    locationInfo: Object
+    locationInfo: Object,
+    menuInfo: Array || Object,
   },
   components: {
     LocationInfo
