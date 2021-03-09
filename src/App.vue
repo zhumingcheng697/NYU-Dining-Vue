@@ -7,7 +7,7 @@
     <div v-else>
       <LocationModal v-if="locations[showingIndex]" :location-info="locations[showingIndex]" :menu-info="(menus[menuIndex(showingIndex)] || {})['menu']" @keypress="handleKeyPress" @hide-location-modal="hideModal"/>
       <div class="Locations">
-        <div class="LocationBlock" :tabindex="showingIndex === -1 ? 0 : -1" v-for="(location, index) in locations" :key="location['id']" @keypress.esc="hideModal" @keypress.enter.space.prevent="toggleLocation(index)" @click="toggleLocation(index)">
+        <div class="LocationBlock" :tabindex="showingIndex === -1 ? 0 : -1" v-for="(location, index) in locations" :key="location['id'] || index" @keypress.esc="hideModal" @keypress.enter.space.prevent="toggleLocation(index)" @click="toggleLocation(index)">
           <LocationInfo :location-info="location"/>
         </div>
       </div>
@@ -36,8 +36,27 @@ export default {
     LocationInfo,
     LocationModal
   },
+  watch: {
+    $route({ query: { id: toId } }, { query: { id: fromId } }) {
+      if (toId !== fromId) {
+        const index = this.locationIndex(toId);
+
+        if (index !== -1) {
+          this.toggleLocationHelper(index);
+        } else {
+          this.hideModalHelper();
+        }
+      }
+    }
+  },
   methods: {
     toggleLocation(index) {
+      this.$router.push({ query: { id: this.locations[index]["id"] } });
+    },
+    hideModal() {
+      this.$router.push({ query: {} });
+    },
+    toggleLocationHelper(index) {
       this.showingIndex = (this.showingIndex === index) ? -1 : index;
 
       if (this.showingIndex !== -1) {
@@ -47,7 +66,7 @@ export default {
         }, 10);
       }
     },
-    hideModal() {
+    hideModalHelper() {
       if (this.showingIndex >= 0 && this.showingIndex < this.locations.length) {
         const index = this.showingIndex + 1;
         setTimeout(() => {
@@ -78,6 +97,11 @@ export default {
         const goTo = (this.showingIndex + 1) % this.locations.length;
         this.toggleLocation(goTo);
       }
+    },
+    locationIndex(id) {
+      return this.locations.findIndex((el) => {
+        return el.id === id;
+      });
     },
     menuIndex(locationIndex) {
       return this.menus.findIndex((el) => {
@@ -113,6 +137,15 @@ export default {
     nodeFetch(locationsJsonUrl).then((res) => res.text()).then((text) => {
       try {
         this.locations = JSON.parse(`${text}`);
+        const id = this.$route.query.id;
+        if (id) {
+          const index = this.locationIndex(id);
+          if (index !== -1) {
+            this.toggleLocationHelper(index);
+          } else {
+            this.hideModal();
+          }
+        }
       } catch (e) {
         console.error(e);
         this.locations = {};
