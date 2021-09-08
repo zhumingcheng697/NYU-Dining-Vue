@@ -14,8 +14,8 @@
           <button class="ModalHideBtn" @click="$emit('hide-location-modal')" @keypress.prevent="$emit('keypress', $event)" @keypress.esc.enter.space.prevent="$emit('hide-location-modal')">&times;</button>
         </div>
         <div class="LeftRightBtnGroup">
-          <button class="LeftBtn LeftRightBtn" @click="$emit('go-left')" @keypress.esc.enter.space.prevent="$emit('go-left')">&lt;</button>
-          <button class="RightBtn LeftRightBtn" @click="$emit('go-right')" @keypress.enter.space.prevent="$emit('go-right')">&gt;</button>
+          <button class="LeftBtn LeftRightBtn" @click="$emit('go-left')" @keypress.esc.prevent="$emit('hide-location-modal')" @keypress.enter.space.prevent="$emit('go-left')">&lt;</button>
+          <button class="RightBtn LeftRightBtn" @click="$emit('go-right')" @keypress.esc.prevent="$emit('hide-location-modal')" @keypress.enter.space.prevent="$emit('go-right')">&gt;</button>
         </div>
       </div>
     </div>

@@ -90,7 +90,7 @@ export default {
     },
     goLeft() {
       if (this.showingIndex >= 0 && this.showingIndex < this.locations.length) {
-        const goTo = (this.showingIndex + 14) % this.locations.length;
+        const goTo = (this.showingIndex - 1 + this.locations.length) % this.locations.length;
         this.toggleLocation(goTo);
       }
     },
